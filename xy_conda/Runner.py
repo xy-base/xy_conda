@@ -30,20 +30,13 @@ class Runner(ArgParse):
     ]
 
     def __init__(self):
-        version = self.fetch_package_version(xy_conda.__name__)
-        self.prog = (
-            f"{xy_conda.__name__}-{version}"
-        )
-        self.description = f"conda相关工具 =======> v{version}}"
+        self.quick_default_info(xy_conda.__name__)
 
     def main(self):
         self.default_parser()
         self.add_arguments()
         self.parse_arguments()
-        if self.work:
-            self.run_arguments()
-        else:
-            self.parser.print_help()
+        self.run_arguments()
 
     def add_arguments(self):
         self.add_argument(
