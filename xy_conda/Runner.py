@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
-__author__ = '余洋'
-__doc__ = 'Runner'
-'''
+__author__ = "余洋"
+__doc__ = "Runner"
+"""
   * @File    :   Runner.py
   * @Time    :   2023/06/08 16:19:06
   * @Author  :   余洋
@@ -9,11 +9,12 @@ __doc__ = 'Runner'
   * @Contact :   yuyangit.0515@qq.com
   * @License :   (C)Copyright 2019-2024, Ship of Ocean
   * @Desc    :   None
-'''
+"""
 from argparse import Namespace
 import os
 from pathlib import Path
 from datetime import datetime
+import xy_conda
 from xy_argparse.ArgParse import ArgParse
 from .Conda import Conda
 from xy_console.utils import print_e, print_s, print_r, inputt
@@ -29,8 +30,11 @@ class Runner(ArgParse):
     ]
 
     def __init__(self):
-        self.prog = "xy_conda"
-        self.description = "conda相关工具"
+        version = self.fetch_package_version(xy_conda.__name__)
+        self.prog = (
+            f"{xy_conda.__name__}-{version}"
+        )
+        self.description = f"conda相关工具 =======> v{version}}"
 
     def main(self):
         self.default_parser()
@@ -219,7 +223,9 @@ class Runner(ArgParse):
                     f"{filepath.name.split('.')[0]}_{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}"
                 )
                 print_r(f"即将备份环境到 => {backup_file_path}")
-                backup_validate = os.system(f"mv -f {target_path} {backup_file_path}") == 0
+                backup_validate = (
+                    os.system(f"mv -f {target_path} {backup_file_path}") == 0
+                )
                 if backup_validate is True:
                     print_s(f"备份完成\n继续...")
                 else:
