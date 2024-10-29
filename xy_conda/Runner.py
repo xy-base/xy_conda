@@ -24,6 +24,7 @@ class Runner(ArgParse):
     conda = Conda()
     work_list = [
         "backup",
+        "download",
         "install",
         "install_pack",
         "load",
@@ -35,7 +36,6 @@ class Runner(ArgParse):
     def main(self):
         self.default_parser()
         self.add_arguments()
-        self.parse_arguments()
         self.run_arguments()
 
     def add_arguments(self):
@@ -45,6 +45,7 @@ class Runner(ArgParse):
             help_text="""
                 工作方式:
                 "backup + [name]" 备份，环境名称可选,
+                "download" 下载最新miniconda安装包到当前目录下
                 "install + [url]" 安装 miniconda,
                 "install_pack" 安装pack包,
                 "load + [name] + [target_path] + [filepath]" 加载环境包, name:conda环境名称, target_path:目标路径, filepath:环境包文件
@@ -114,13 +115,12 @@ class Runner(ArgParse):
         value,
         arguments=None,
     ):
-        # "backup",
-        # "install",
-        # "install_pack",
-        # "load",
         if name == "work":
             if value == "backup":
                 self.backup()
+                return False
+            if value == "download":
+                self.download()
                 return False
             elif value == "load":
                 self.load()
@@ -163,6 +163,13 @@ class Runner(ArgParse):
                     print_r("备份取消: 备份conda环境取消")
             else:
                 print_e("备份错误: conda环境不存在 !!!")
+
+    def download(self):
+        result = self.conda.download()
+        if result is True:
+            print_s("下载安装包完成")
+        else:
+            print_s("下载安装包失败")
 
     def load(self):
         filepath = None

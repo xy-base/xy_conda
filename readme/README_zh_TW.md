@@ -47,13 +47,20 @@ xy_conda -w backup -n conda_name
 # 输入 [Y/n]
 # Y
 
+xy_conda -w download
+# 下载 miniconda 最新安装包
+
 xy_conda -w install
+# 安装 miniconda
 
 xy_conda -w install <conda安装包url>
+# 安装 miniconda
 
 xy_conda -w install_pack
+# 安装pack包
 
 xy_conda -w load -f python_3_11_3_2024_03_19_20_15_22.tar.gz
+# 加载环境包
 
 ```
 

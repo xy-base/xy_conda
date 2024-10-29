@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
-__author__ = '余洋'
-__doc__ = 'Conda'
-'''
+__author__ = "余洋"
+__doc__ = "Conda"
+"""
   * @File    :   Conda.py
   * @Time    :   2023/06/03 08:10:08
   * @Author  :   余洋
@@ -9,7 +9,7 @@ __doc__ = 'Conda'
   * @Contact :   yuyangit.0515@qq.com
   * @License :   (C)Copyright 2019-2024, Ship of Ocean
   * @Desc    :   None
-'''
+"""
 
 import os
 import platform
@@ -113,6 +113,15 @@ class Conda:
             password_text = f"echo {password} | sudo -S "
         cmd = f"{password_text}cp -rf{source} {target}"
         return os.system(cmd) == 0
+
+    def download(self) -> bool:
+        if not os.access(Path.cwd(), os.W_OK):
+            return False
+        wget_result = os.system(f"wget {self.default_conda_install_url}") == 0
+        if not wget_result:
+            return False
+        else:
+            return True
 
     def install(self) -> bool:
         if not os.access(Path.cwd(), os.W_OK):
