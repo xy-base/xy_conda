@@ -33,8 +33,9 @@ pip install xy_conda
 # bash
 # 工作方式:
 # "backup + [name]" 备份，环境名称可选,
-# "download" 下载最新miniconda安装包到当前目录下
-# "install + [url]" 安装 miniconda,
+# "download" 下载最新 Miniconda3 安装包到当前目录下
+# "install" 安装最新的 Miniconda3,
+# "install_b" 静默安装最新版本 Miniconda3, 默认安装路径到~/Miniconda33, 相当于 sh ./Miniconda3-安装包.sh -b
 # "install_pack" 安装pack包,
 # "load + [name] + [target_path] + [filepath]" 加载环境包, name:conda环境名称, target_path:目标路径, filepath:环境包文件路径,
 
@@ -49,13 +50,13 @@ xy_conda -w backup -n conda_name
 # Y
 
 xy_conda -w download
-# 下载 miniconda 最新安装包
+# 下载 Miniconda3 最新安装包
 
 xy_conda -w install
-# 安装 miniconda
+# 安装 Miniconda3
 
-xy_conda -w install <conda安装包url>
-# 安装 miniconda
+xy_conda -w install_b
+# 静默安装最新 Miniconda3
 
 xy_conda -w install_pack
 # 安装pack包
