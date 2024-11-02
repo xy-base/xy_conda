@@ -117,7 +117,6 @@ class Runner(ArgParse):
         arguments=None,
     ):
         if name == "work":
-            print(f"on_arguments =====> {value}")
             if value == "backup":
                 self.backup()
                 return False
