@@ -123,17 +123,61 @@ class Conda:
         else:
             return True
 
-    def install(self, sh_args: list = []) -> bool:
+    def install(self) -> bool:
         if not os.access(Path.cwd(), os.W_OK):
+            print("当前工作目录没有写入权限")
             return False
+        install_cmd = f"sh {Path(self.default_conda_install_url).name}"
+        conda_install_package_path = Path(Path(self.default_conda_install_url).name)
+        if conda_install_package_path.exists() and conda_install_package_path.is_file():
+            if os.access(conda_install_package_path, os.X_OK):
+                sh_result = os.system(
+                    install_cmd,
+                )
+                return sh_result == 0
+            else:
+                print(f"{conda_install_package_path} 没有执行权限.")
+                return False
         wget_result = os.system(f"wget {self.default_conda_install_url}") == 0
         if not wget_result:
             return False
         else:
-            sh_result = os.system(
-                f"sh {Path(self.default_conda_install_url).name} {' '.join(sh_args)}"
-            )
-            return sh_result == 0
+            if os.access(conda_install_package_path, os.X_OK):
+                sh_result = os.system(
+                    install_cmd,
+                )
+                return sh_result == 0
+            else:
+                print(f"{conda_install_package_path} 没有执行权限.")
+                return False
+
+    def install_b(self) -> bool:
+        if not os.access(Path.cwd(), os.W_OK):
+            print("当前工作目录没有写入权限")
+            return False
+        install_cmd = f"sh {Path(self.default_conda_install_url).name} -b"
+        conda_install_package_path = Path(Path(self.default_conda_install_url).name)
+        if conda_install_package_path.exists() and conda_install_package_path.is_file():
+            if os.access(conda_install_package_path, os.X_OK):
+                sh_result = os.system(
+                    install_cmd,
+                )
+                return sh_result == 0
+            else:
+                print(f"{conda_install_package_path} 没有执行权限.")
+                return False
+        wget_result = os.system(f"wget {self.default_conda_install_url}") == 0
+        if not wget_result:
+            return False
+        else:
+            if os.access(conda_install_package_path, os.X_OK):
+                sh_result = os.system(
+                    install_cmd,
+                )
+                return sh_result == 0
+            else:
+                print(f"{conda_install_package_path} 没有执行权限.")
+                return False
 
     def install_pack(self) -> bool:
         cmd = "conda install -c conda-forge conda-pack -y"
