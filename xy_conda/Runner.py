@@ -50,6 +50,7 @@ class Runner(ArgParse):
                 "install_pack" 安装pack包,
                 "load + [name] + [target_path] + [filepath]" 加载环境包, name:conda环境名称, target_path:目标路径, filepath:环境包文件
             """,
+            nargs="+",
         )
         self.add_argument(
             flag="-n",
@@ -116,21 +117,40 @@ class Runner(ArgParse):
         arguments=None,
     ):
         if name == "work":
-            if value == "backup":
-                self.backup()
-                return False
-            if value == "download":
-                self.download()
-                return False
-            elif value == "load":
-                self.load()
-                return False
-            elif value == "install":
-                self.install()
-                return False
-            elif value == "install_pack":
-                self.install_pack()
-                return False
+            if isinstance(value, list) and len(value) > 0:
+                argument = value[0]
+                sh_args = value[1:]
+                if value == "backup":
+                    self.backup()
+                    return False
+                if value == "download":
+                    self.download()
+                    return False
+                elif value == "load":
+                    self.load()
+                    return False
+                elif value == "install":
+                    self.install(sh_args)
+                    return False
+                elif value == "install_pack":
+                    self.install_pack()
+                    return False
+            else:
+                if value == "backup":
+                    self.backup()
+                    return False
+                if value == "download":
+                    self.download()
+                    return False
+                elif value == "load":
+                    self.load()
+                    return False
+                elif value == "install":
+                    self.install()
+                    return False
+                elif value == "install_pack":
+                    self.install_pack()
+                    return False
         return True
 
     def backup(self):
@@ -267,8 +287,8 @@ class Runner(ArgParse):
             else:
                 print_e("加载环境失败...")
 
-    def install(self):
-        ok = self.conda.install()
+    def install(self, sh_args: list = []):
+        ok = self.conda.install(sh_args=sh_args)
         if ok:
             print_s("安装完成")
         else:

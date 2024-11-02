@@ -123,14 +123,16 @@ class Conda:
         else:
             return True
 
-    def install(self) -> bool:
+    def install(self, sh_args: list = []) -> bool:
         if not os.access(Path.cwd(), os.W_OK):
             return False
         wget_result = os.system(f"wget {self.default_conda_install_url}") == 0
         if not wget_result:
             return False
         else:
-            sh_result = os.system(f"sh {Path(self.default_conda_install_url).name}")
+            sh_result = os.system(
+                f"sh {Path(self.default_conda_install_url).name} {' '.join(sh_args)}"
+            )
             return sh_result == 0
 
     def install_pack(self) -> bool:
